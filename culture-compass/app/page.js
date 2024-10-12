@@ -1,17 +1,16 @@
 'use client'
 
-import Image from "next/image";
-import styles from "./page.module.css";
 import { useEffect, useRef, useState } from "react";
 
 
 export const DEFAULT_DISTANCE_IN_KM = "100";
 
-/*navigator.geolocation.getCurrentPosition()*/
+/**/
 
 const containerStyle = {
-  width: "100%",
-  height: "400px",
+  width: "100vw", // Full width of the viewport
+  height: "100vh", // Full height of the viewport
+  position: "relative", // To allow overlaying inputs/buttons on top
 };
 
 async function getLatLonForCity(city) {
@@ -61,13 +60,22 @@ const loadGoogleMapsScript = () => {
 
 const Map = ({ latitude, longitude }) => {
   const mapRef = useRef(null);
+  
 
   useEffect(() => {
     const loadMap = () => {
       if (window.google && window.google.maps) {
         const map = new window.google.maps.Map(mapRef.current, {
           center: { lat: latitude, lng: longitude },
-          zoom: 12,
+          // We might want to consider switching off the gesturehanding and zoomControl off for the user
+          //gestureHandling: 'none', // Disable all user gestures (scroll, drag, touch)
+          //zoomControl: false, // Disable zoom control
+          zoom: 17,
+          mapTypeId: 'satellite',
+        });
+
+        map.addListener('zoom_changed', () => {
+          console.log(map.getZoom()) // Update the state when zoom changes
         });
 
         // Add a marker for the place
@@ -87,19 +95,13 @@ const Map = ({ latitude, longitude }) => {
 };
 
 export default function Home() {
-  const [places, setPlaces] = useState([
-    {
-      name: "Burger City",
-      address: "999 Some Street, New York",
-      latitude: 40.7121,
-      longitude: -74.005
-    }
-  ]);
 
   const [city, setCity] = useState(""); // To store the city name
   const [latitude, setLatitude] = useState(51.5074); // Default latitude
   const [longitude, setLongitude] = useState(-0.1278); // Default longitude
 
+
+  
 
 
   const handleCityChange = (event) => {
@@ -115,6 +117,24 @@ export default function Home() {
       console.error("Error fetching location:", error);
     }
   };
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      //setError('Geolocation is not supported by your browser');
+    } else {
+      // Get the user's current location
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (err) => {
+          //setError('Unable to retrieve your location');
+        });
+        
+        
+    }
+  }, [])
 
   return (
     <div>

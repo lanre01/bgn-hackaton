@@ -95,7 +95,10 @@ export default function Home() {
       longitude: -74.005
     }
   ]);
-
+  lawal = true
+  if(lawal) {
+    console.log("lawal is smart")
+  }
   const [city, setCity] = useState(""); // To store the city name
   const [latitude, setLatitude] = useState(51.5074); // Default latitude
   const [longitude, setLongitude] = useState(-0.1278); // Default longitude
@@ -144,3 +147,4 @@ export default function Home() {
  * 
  * By using a Promise, we can wait for the script to be ready and initialize the map without race conditions or async errors.
  */
+

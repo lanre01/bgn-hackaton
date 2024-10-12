@@ -95,7 +95,7 @@ export default function Home() {
       longitude: -74.005
     }
   ]);
-  lawal = true
+  const lawal = true
   if(lawal) {
     console.log("lawal is smart")
   }

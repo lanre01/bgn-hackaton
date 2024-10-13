@@ -1,4 +1,4 @@
-import { AppBar, Button, Box, Stack, Typography } from "@mui/material";
+import { Button, Box, Stack, Typography } from "@mui/material";
 
 export default function Navbar() {
 
@@ -11,7 +11,6 @@ export default function Navbar() {
         flexDirection: "row",
         justifyContent: "space-around",
         padding: "10px",
-        
      }}>
         <Typography>The thing</Typography>
         <Box>

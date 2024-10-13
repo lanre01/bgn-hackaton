@@ -9,6 +9,8 @@ export default function Footer() {
         flexDirection={"column"}
         alignItems={'center'}
         justifyItems={'center'}
+        bottom={0}
+        
         >
             <Typography>
                 2024 - Culture Compass, Inc. All rights reserved.

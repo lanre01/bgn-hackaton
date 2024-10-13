@@ -1,7 +1,7 @@
 'use client'
 import Navbar from './Components/Navbar';
 import { useEffect, useRef, useState } from "react";
-import { Box, Button, Stack, TextField} from '@mui/material';
+import { Box, Button, CssBaseline, Stack, TextField} from '@mui/material';
 import Footer from './Components/Footer';
 import NewMap from './Components/NewMap';
 
@@ -127,17 +127,39 @@ export default function Home() {
           //setError('Unable to retrieve your location');
         });
         
-        
     }
   }, [])
 
   return (
     <Box 
-    minHeight={'100%'}
-    
+    height={'100vh'}
+    width={'100vw'}
+    display={'grid'}
+    gridTemplateRows={'auto 1fr auto'}
+    //flexDirection={'column'}
     >
-       <NewMap/>
-        
+      <CssBaseline />
+
+      <Navbar />
+      <Box 
+      height={'inherit'}
+      flex={1}>
+        <Box 
+        padding={"5px"}
+        display={"flex"}
+        justifyContent={"center"}
+        >
+          <TextField
+            value={city}
+            onChange={handleCityChange}
+            placeholder="Enter city"
+          />
+          <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
+        </Box>
+        <NewMap latitude={latitude} longitude={longitude}></NewMap>
+      </Box>
+      
+      <Footer></Footer>
       
     </Box>
     

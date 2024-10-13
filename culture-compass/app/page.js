@@ -1,8 +1,10 @@
 'use client'
 import Navbar from './Components/Navbar';
 import { useEffect, useRef, useState } from "react";
-import { Box, Button, Stack, TextField} from '@mui/material';
+import { Box, Button, CssBaseline, Stack, TextField} from '@mui/material';
 import Footer from './Components/Footer';
+import NewMap from './Components/NewMap';
+
 
 const containerStyle = {
   width: "100vw", // Use full width of the parent container
@@ -125,23 +127,30 @@ export default function Home() {
           //setError('Unable to retrieve your location');
         });
         
-        
     }
   }, [])
 
   return (
     <Box 
+    height={'100vh'}
+    width={'100vw'}
     display={'flex'}
-    //gridTemplateRows={"auto 1fr auto"}
-    flexDirection={"column"}
-    minHeight={"100vh"}
+    flexDirection={'column'}
     >
-      <Navbar></Navbar>
-      <Box>
+      <CssBaseline />
+
+      <Navbar />
+      <Box 
+      height={'100%'}
+      flex={1}
+      flexWrap={'wrap'}
+      >
         <Box 
         padding={"5px"}
         display={"flex"}
+
         justifyContent={"center"}
+        gap={5}
         >
           <TextField
             value={city}
@@ -150,11 +159,12 @@ export default function Home() {
           />
           <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
         </Box>
-       
-        <Map latitude={latitude} longitude={longitude} />
         
-      </Box> 
+        <NewMap latitude={latitude} longitude={longitude}></NewMap>
+      </Box>
+      
       <Footer></Footer>
+      
     </Box>
     
   );

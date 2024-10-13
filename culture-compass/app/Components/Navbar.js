@@ -1,5 +1,8 @@
+
 import { AppBar, Button, Box, Stack, Typography} from "@mui/material";
 import Image from "next/image";
+
+
 
 export default function Navbar() {
 
@@ -12,7 +15,6 @@ export default function Navbar() {
         flexDirection: "row",
         justifyContent: "space-around",
         padding: "10px",
-        
      }}>
         <Box>
             <Image

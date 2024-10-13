@@ -9,7 +9,6 @@ export default function Footer() {
         flexDirection={"column"}
         alignItems={'center'}
         justifyItems={'center'}
-        bottom={0}
         
         >
             <Typography>

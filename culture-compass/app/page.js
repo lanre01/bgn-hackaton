@@ -134,20 +134,23 @@ export default function Home() {
     <Box 
     height={'100vh'}
     width={'100vw'}
-    display={'grid'}
-    gridTemplateRows={'auto 1fr auto'}
-    //flexDirection={'column'}
+    display={'flex'}
+    flexDirection={'column'}
     >
       <CssBaseline />
 
       <Navbar />
       <Box 
-      height={'inherit'}
-      flex={1}>
+      height={'100%'}
+      flex={1}
+      flexWrap={'wrap'}
+      >
         <Box 
         padding={"5px"}
         display={"flex"}
+
         justifyContent={"center"}
+        gap={5}
         >
           <TextField
             value={city}
@@ -156,6 +159,7 @@ export default function Home() {
           />
           <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
         </Box>
+        
         <NewMap latitude={latitude} longitude={longitude}></NewMap>
       </Box>
       

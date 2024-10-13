@@ -3,6 +3,8 @@ import Navbar from './Components/Navbar';
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Stack, TextField} from '@mui/material';
 import Footer from './Components/Footer';
+import NewMap from './Components/NewMap';
+
 
 const containerStyle = {
   width: "100vw", // Use full width of the parent container
@@ -131,30 +133,12 @@ export default function Home() {
 
   return (
     <Box 
-    display={'flex'}
-    //gridTemplateRows={"auto 1fr auto"}
-    flexDirection={"column"}
-    minHeight={"100vh"}
+    minHeight={'100%'}
+    
     >
-      <Navbar></Navbar>
-      <Box>
-        <Box 
-        padding={"5px"}
-        display={"flex"}
-        justifyContent={"center"}
-        >
-          <TextField
-            value={city}
-            onChange={handleCityChange}
-            placeholder="Enter city"
-          />
-          <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
-        </Box>
-       
-        <Map latitude={latitude} longitude={longitude} />
+       <NewMap/>
         
-      </Box> 
-      <Footer></Footer>
+      
     </Box>
     
   );

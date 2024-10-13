@@ -1,15 +1,12 @@
 'use client'
-
+import Navbar from './Components/Navbar';
 import { useEffect, useRef, useState } from "react";
-
-
-export const DEFAULT_DISTANCE_IN_KM = "100";
-
-/**/
+import { Box, Button, Stack, TextField} from '@mui/material';
+import Footer from './Components/Footer';
 
 const containerStyle = {
-  width: "100vw", // Full width of the viewport
-  height: "100vh", // Full height of the viewport
+  width: "100vw", // Use full width of the parent container
+  height: "100vh", // Use full height of the parent container
   position: "relative", // To allow overlaying inputs/buttons on top
 };
 
@@ -74,10 +71,6 @@ const Map = ({ latitude, longitude }) => {
           mapTypeId: 'satellite',
         });
 
-        map.addListener('zoom_changed', () => {
-          console.log(map.getZoom()) // Update the state when zoom changes
-        });
-
         // Add a marker for the place
         new window.google.maps.Marker({
           position: { lat: latitude, lng: longitude },
@@ -91,7 +84,7 @@ const Map = ({ latitude, longitude }) => {
     });
     }, [latitude, longitude]);
 
-  return <div ref={mapRef} style={containerStyle} />;
+  return <div ref={mapRef} style={containerStyle}/>;
 };
 
 export default function Home() {
@@ -137,18 +130,33 @@ export default function Home() {
   }, [])
 
   return (
-    <div>
-      <h1>Places Map</h1>
-      <input
-        type="text"
-        value={city}
-        onChange={handleCityChange}
-        placeholder="Enter city"
-      />
-      <button onClick={handleSearch}>Show Map</button>
-
-      <Map latitude={latitude} longitude={longitude} />
-    </div>
+    <Box 
+    display={'flex'}
+    //gridTemplateRows={"auto 1fr auto"}
+    flexDirection={"column"}
+    minHeight={"100vh"}
+    >
+      <Navbar></Navbar>
+      <Box>
+        <Box 
+        padding={"5px"}
+        display={"flex"}
+        justifyContent={"center"}
+        >
+          <TextField
+            value={city}
+            onChange={handleCityChange}
+            placeholder="Enter city"
+          />
+          <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
+        </Box>
+       
+        <Map latitude={latitude} longitude={longitude} />
+        
+      </Box> 
+      <Footer></Footer>
+    </Box>
+    
   );
 }
 

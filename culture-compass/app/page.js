@@ -127,6 +127,7 @@ export default function Home() {
           //setError('Unable to retrieve your location');
         });
         
+        
     }
   }, [])
 
@@ -159,9 +160,9 @@ export default function Home() {
           />
           <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
         </Box>
-        
+       
         <NewMap latitude={latitude} longitude={longitude}></NewMap>
-      </Box>
+      </Box> 
       
       <Footer></Footer>
       

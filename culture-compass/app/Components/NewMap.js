@@ -17,15 +17,39 @@ export default function NewMap({latitude, longitude}) {
         setQuestion(questions[index]);
     }
 
+    const getQuestionsAndFact = async () => {
+        try {
+            const res = await fetch('/api/questions', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json', // Ensure the server understands JSON
+                },
+                body: JSON.stringify({
+                  lat: latitude,  // Pass latitude
+                  lng: longitude  // Pass longitude
+                })
+              });
+              
+            const mapData = await res.json();
+            console.log(mapData);
+    
+    
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
 
     useEffect(() => {
+        
+
         const initializeMap = async () => {
             const loader = new Loader({
                 apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
                 version: 'quarterly',
             });
 
-            const { Map, Ad } = await loader.importLibrary('maps');
+            const { Map } = await loader.importLibrary('maps');
             const { AdvancedMarkerElement } = await loader.importLibrary('marker');
 
             const options = {
@@ -37,6 +61,9 @@ export default function NewMap({latitude, longitude}) {
             };
 
             const map = new Map(mapRef.current, options);
+            
+
+            
 
             // Create an Advanced Marker with an image
             const markerElement = document.createElement('div');
@@ -72,21 +99,26 @@ export default function NewMap({latitude, longitude}) {
 
 
         }
-        initializeMap();
-        console.log(latitude)
+
+        getQuestionsAndFact().then(initializeMap()).catch(
+            (error) => {
+                console.log(error);
+            }
+        )
+
     }, [latitude, longitude]);
     
 
     return (
         <Box>
-            <Modal open={open}>
+            {/* <Modal open={open}>
                 <Box display={'flex'} flexDirection={'row'}>
                     {question.questions.map((ques, index) => (
                         <Typography key={index}>{ques}</Typography>
                     ))}
                 </Box>
-            </Modal>
-            <Box // Ensure the map container has proper dimensions
+            </Modal> */}
+            <Box 
             ref={mapRef}
             sx={{ 
                 width: '100%', 

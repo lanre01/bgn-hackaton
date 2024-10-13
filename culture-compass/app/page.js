@@ -1,7 +1,7 @@
 'use client'
 import Navbar from './Components/Navbar';
 import { useEffect, useRef, useState } from "react";
-import { Box, Button, CssBaseline, Stack, TextField} from '@mui/material';
+import { Box, Button, CssBaseline, Modal, Stack, TextField} from '@mui/material';
 import Footer from './Components/Footer';
 import NewMap from './Components/NewMap';
 
@@ -21,6 +21,8 @@ async function getLatLonForCity(city) {
   const { lat, lng } = geocodeData.results[0].geometry.location;
   return { lon: lng, lat };
 }
+
+
 
 export const Place = {
   name: "",
@@ -81,7 +83,7 @@ const Map = ({ latitude, longitude }) => {
         });
       }
     };
-    loadGoogleMapsScript().then(loadMap).catch((error) => {
+    loadGoogleMapsScript().then(getQuestionsAndFact).then(loadMap).catch((error) => {
       console.error("Failed to load Google Maps script", error);
     });
     }, [latitude, longitude]);
@@ -89,11 +91,48 @@ const Map = ({ latitude, longitude }) => {
   return <div ref={mapRef} style={containerStyle}/>;
 };
 
+const getQuestionsAndFact = () => {
+    try {
+      const res = fetch('/api/questions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', // Ensure the server understands JSON
+          },
+          body: JSON.stringify({
+            lat: latitude,  // Pass latitude
+            lng: longitude  // Pass longitude
+          })
+        });
+        
+      const mapData = res.json();
+      console.log(mapData);
+
+
+    } catch(e) {
+        console.log(e);
+    }
+  } 
+
+
+
+
+
+
+
+
+
+
+
+
 export default function Home() {
 
   const [city, setCity] = useState(""); // To store the city name
   const [latitude, setLatitude] = useState(51.5074); // Default latitude
   const [longitude, setLongitude] = useState(-0.1278); // Default longitude
+  const [questions, setQuestions] = useState([]);
+  const [question, setQuestion] = useState("");
+  const [open, setOpen] = useState(false);
+
 
 
   
@@ -113,7 +152,11 @@ export default function Home() {
     }
   };
 
+  
+
   useEffect(() => {
+    
+
     if (!navigator.geolocation) {
       //setError('Geolocation is not supported by your browser');
     } else {
@@ -129,6 +172,9 @@ export default function Home() {
         
         
     }
+
+    //getQuestionsAndFact();
+
   }, [])
 
   return (
@@ -160,8 +206,15 @@ export default function Home() {
           />
           <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
         </Box>
-       
-        <NewMap latitude={latitude} longitude={longitude}></NewMap>
+       <Modal open={open}>
+          <Box>
+            
+
+          </Box>
+
+       </Modal>
+        {/* <NewMap latitude={latitude} longitude={longitude}></NewMap> */}
+        <Map latitude={latitude} longitude={longitude}></Map>
       </Box> 
       
       <Footer></Footer>

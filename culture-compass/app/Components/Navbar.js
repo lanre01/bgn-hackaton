@@ -16,7 +16,7 @@ export default function Navbar() {
      }}>
         <Box>
             <Image
-            src="/app/Resources/CC_LOGO.png" // Use absolute path from the public folder
+            src="/culture-compass/app/Resources/CC_LOGO.png" // Use absolute path from the public folder
             alt="Culture Compass Logo"
             width={250} // Set the width you need
             height={100} // Set the height to maintain aspect ratio

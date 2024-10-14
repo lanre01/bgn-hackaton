@@ -9,6 +9,8 @@ export default function Footer() {
         flexDirection={"column"}
         alignItems={'center'}
         justifyItems={'center'}
+        bgcolor={'black'}
+        color={'white'}
         
         >
             <Typography>

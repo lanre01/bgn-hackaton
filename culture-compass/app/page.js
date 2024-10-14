@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Button, CssBaseline, Modal, Stack, TextField} from '@mui/material';
 import Footer from './Components/Footer';
 import NewMap from './Components/NewMap';
+import GoogleMapComponent from './Components/AMap'
+import facts2 from './Components/facts';
 
 
 const containerStyle = {
@@ -61,9 +63,40 @@ const loadGoogleMapsScript = () => {
 
 const Map = ({ latitude, longitude }) => {
   const mapRef = useRef(null);
-  
+  const [facts, setFacts] = useState([]);
+  const [question, setQuestion] = useState("");
 
   useEffect(() => {
+
+    const getQuestionsAndFact = async () => {
+      try {
+        const res = await fetch('/api/questions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', // Ensure the server understands JSON
+            },
+            body: JSON.stringify({
+              lat: latitude,  
+              lng: longitude  
+            })
+          });
+          
+        const mapData = await res.json();
+        setFacts(mapData);
+        
+        array.forEach(element => {
+          
+        });
+  
+  
+  
+      } catch(e) {
+          console.log(e);
+      }
+    } 
+
+
+
     const loadMap = () => {
       if (window.google && window.google.maps) {
         const map = new window.google.maps.Map(mapRef.current, {
@@ -81,8 +114,31 @@ const Map = ({ latitude, longitude }) => {
           map: map,
           title: "Location",
         });
+
+        /* facts.forEach((fact, index) => {
+          
+          new window.google.maps.Marker({
+            position: { lat: fact.lat, lng: fact.lng },
+            map: map,
+          });
+
+
+        }) */
+
+        for(var i = 0; i < facts.length; i++) {
+          new window.google.maps.Marker({
+            position: { lat: facts[i].lat, lng: facts[i].lng },
+            map: map,
+            title: "Facts"
+          });
+        }
+
+
+
+        
       }
     };
+
     loadGoogleMapsScript().then(getQuestionsAndFact).then(loadMap).catch((error) => {
       console.error("Failed to load Google Maps script", error);
     });
@@ -90,34 +146,6 @@ const Map = ({ latitude, longitude }) => {
 
   return <div ref={mapRef} style={containerStyle}/>;
 };
-
-const getQuestionsAndFact = () => {
-    try {
-      const res = fetch('/api/questions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json', // Ensure the server understands JSON
-          },
-          body: JSON.stringify({
-            lat: latitude,  // Pass latitude
-            lng: longitude  // Pass longitude
-          })
-        });
-        
-      const mapData = res.json();
-      console.log(mapData);
-
-
-    } catch(e) {
-        console.log(e);
-    }
-  } 
-
-
-
-
-
-
 
 
 
@@ -127,10 +155,10 @@ const getQuestionsAndFact = () => {
 export default function Home() {
 
   const [city, setCity] = useState(""); // To store the city name
-  const [latitude, setLatitude] = useState(51.5074); // Default latitude
-  const [longitude, setLongitude] = useState(-0.1278); // Default longitude
-  const [questions, setQuestions] = useState([]);
-  const [question, setQuestion] = useState("");
+  const [latitude, setLatitude] = useState(50.134); // Default latitude
+  const [longitude, setLongitude] = useState(-6.1240); // Default longitude
+  const [facts, setFacts] = useState([])
+
   const [open, setOpen] = useState(false);
 
 
@@ -173,53 +201,76 @@ export default function Home() {
         
     }
 
-    //getQuestionsAndFact();
+    const getQuestionsAndFact = async () => {
+      try {
+        const res = await fetch('/api/questions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', // Ensure the server understands JSON
+            },
+            body: JSON.stringify({
+              lat: 52.924116, //latitude,  
+              lng: -1.21926, //longitude  
+            })
+          });
+          
+        const mapData = await res.json();
+        const factsArray = mapData.facts;
 
-  }, [])
+        setFacts(factsArray);
+ 
+      } catch(e) {
+          console.log(e);
+      }
+    } 
+
+    getQuestionsAndFact().then(console.log(facts)).catch((error) => console.log(error));
+
+  }, [latitude, longitude])
 
   return (
-    <Box 
-    height={'100vh'}
-    width={'100vw'}
+
+    <Box
+    minHeight={'100vh'}
+    minWidth={'100vw'}
     display={'flex'}
     flexDirection={'column'}
+    bgcolor={'white'}
+    gap={'5px'}
     >
-      <CssBaseline />
+      <Navbar></Navbar>
 
-      <Navbar />
-      <Box 
-      height={'100%'}
+      <Box
       flex={1}
-      flexWrap={'wrap'}
+      display={'flex'}
+      flexDirection={'column'}
+      gap={'5px'}
       >
-        <Box 
-        padding={"5px"}
-        display={"flex"}
-
-        justifyContent={"center"}
-        gap={5}
+        <Box
+        display={'flex'}
+        justifyContent={'center'}
+        
         >
           <TextField
             value={city}
             onChange={handleCityChange}
             placeholder="Enter city"
           />
-          <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
+          <Button variant='contained' color='white' onClick={handleSearch}>Show Map</Button>
+
         </Box>
-       <Modal open={open}>
-          <Box>
-            
+        <Box
+        height={'100vh'}
+        width={'100vw'}
+        >
+          <GoogleMapComponent facts={ facts2 } lat={51.53338} lng={-0.12605} />
+        </Box>
 
-          </Box>
 
-       </Modal>
-        {/* <NewMap latitude={latitude} longitude={longitude}></NewMap> */}
-        <Map latitude={latitude} longitude={longitude}></Map>
-      </Box> 
-      
+      </Box>
       <Footer></Footer>
-      
     </Box>
+   
     
   );
 }
@@ -236,3 +287,4 @@ export default function Home() {
  * 
  * By using a Promise, we can wait for the script to be ready and initialize the map without race conditions or async errors.
  */
+ 

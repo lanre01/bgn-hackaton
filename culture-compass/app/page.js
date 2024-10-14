@@ -154,6 +154,8 @@ const Map = ({ latitude, longitude }) => {
 
 export default function Home() {
 
+
+
   const [city, setCity] = useState(""); // To store the city name
   const [latitude, setLatitude] = useState(50.134); // Default latitude
   const [longitude, setLongitude] = useState(-6.1240); // Default longitude
@@ -287,4 +289,4 @@ export default function Home() {
  * 
  * By using a Promise, we can wait for the script to be ready and initialize the map without race conditions or async errors.
  */
- 
+

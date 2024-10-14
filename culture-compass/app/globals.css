@@ -9,6 +9,20 @@
     --foreground: #ededed;
   }
 }
+.logo {
+  width: 150px; /* Adjust based on your design */
+  height: auto; /* Maintain aspect ratio */
+  display: block;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000 ;
+}
+@media (prefers-color-scheme: dark) {
+  .logo {
+    content: url("./app/images/CC_LOGO.png"); /* Optionally, change logo in dark mode */
+  }
+}
 
 html,
 body {

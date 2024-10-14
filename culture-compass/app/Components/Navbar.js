@@ -1,5 +1,6 @@
 import { AppBar, Button, Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import Link from 'next/link';
 
 export default function Navbar() {
 
@@ -23,26 +24,37 @@ export default function Navbar() {
             height={50} // Set the height to maintain aspect ratio
           />
           </Box>
-        <Box>
-            <Button
-            sx={{
-              color:'#d11b1b'
-
-            }}
-            >About</Button>
-            <Button sx={{
-              color:'#1e7d58'
-
-            }}>Quiz</Button>
-            <Button sx={{
-              color:'white'
-
-            }}>Facts</Button>
-            <Button sx={{
-              color:'#d59a3a'
-
-            }}>Daily Grill</Button>
-        </Box>
+          <nav>
+            <Link href="/about" passHref>
+                <Button
+                    sx={{
+                        color: '#d11b1b'
+                    }}
+                >
+                    About
+                </Button>
+            </Link>
+            
+            <Link href="/quiz" passHref>
+                <Button
+                    sx={{
+                        color: '#F7B751'
+                    }}
+                >
+                    Quiz
+                </Button>
+            </Link>
+            
+            <Link href="/facts" passHref>
+                <Button
+                    sx={{
+                        color: '#1E7D58'
+                    }}
+                >
+                    Facts
+                </Button>
+            </Link>
+        </nav>
 
     </Stack>)
 }

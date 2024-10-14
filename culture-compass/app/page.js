@@ -159,10 +159,11 @@ export default function Home() {
             placeholder="Enter city"
           />
           <Button variant='outlined' color='white' onClick={handleSearch}>Show Map</Button>
-        </Box>
-       
-        <NewMap latitude={latitude} longitude={longitude}></NewMap>
-      </Box> 
+        </Box> 
+
+        {/* <NewMap latitude={latitude} longitude={longitude}></NewMap> */}
+        <Map latitude={latitude} longitude={longitude} ></Map>
+      </Box>
       
       <Footer></Footer>
       

@@ -3,7 +3,6 @@ import Navbar from './Components/Navbar';
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, CssBaseline, Modal, Stack, TextField} from '@mui/material';
 import Footer from './Components/Footer';
-import NewMap from './Components/NewMap';
 import GoogleMapComponent from './Components/AMap'
 import facts2 from './Components/facts';
 
@@ -144,4 +143,3 @@ export default function Home() {
  * 
  * By using a Promise, we can wait for the script to be ready and initialize the map without race conditions or async errors.
  */
-
